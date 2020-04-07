@@ -1,9 +1,10 @@
-package app.bizo.appclientevip.telas;
+package app.bizo.appclientevip.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +13,13 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class CadastroUsuarioActivity extends AppCompatActivity {
+import api.PreferenciasUtil;
+import app.bizo.appclientevip.controller.UsuarioController;
+import app.bizo.appclientevip.model.Usuario;
+
+public class CadastroUsuarioActivity extends ActivityBase {
+
+    private static final String TAG = CadastroUsuarioActivity.class.getSimpleName();
 
     private EditText edtNome;
     private EditText edtEmail;
@@ -21,25 +28,38 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
     private CheckBox chkTermosUso;
     private Button btnCadastrar;
 
+    private Usuario usuario;
+    private UsuarioController controller;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_usuario);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        inicializar();
+        initFormulario();
+
+        Log.i(TAG, PreferenciasUtil.getStringData(getApplicationContext(), "usuarioNome"));
 
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validarFormulario()){
+                    usuario = new Usuario();
+                    usuario.setNome(edtNome.getText().toString());
+                    usuario.setEmail(edtEmail.getText().toString());
+                    usuario.setSenha(edtSenha.getText().toString());
+                    usuario.setAceitouTermosUso(chkTermosUso.isChecked());
+                    usuario.setId(null);
 
+                    controller = new UsuarioController();
+                    controller.salvar(getApplicationContext(), usuario);
                 }
             }
         });
     }
 
-    private void inicializar() {
+    private void initFormulario() {
         edtNome = (EditText) findViewById(R.id.edtNome);
         edtEmail = (EditText) findViewById(R.id.edtEmail);
         edtSenha = (EditText) findViewById(R.id.edtSenha);
@@ -95,18 +115,4 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         return TextUtils.equals(edtSenha.getText(), edtSenhaConfirmar.getText());
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return false;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
 }

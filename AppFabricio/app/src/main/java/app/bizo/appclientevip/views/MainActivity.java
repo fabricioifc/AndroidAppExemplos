@@ -1,4 +1,4 @@
-package app.bizo.appclientevip.telas;
+package app.bizo.appclientevip.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import app.bizo.appclientevip.listeners.Contador;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends ActivityBase implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 

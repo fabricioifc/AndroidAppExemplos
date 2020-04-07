@@ -2,7 +2,7 @@ package app.bizo.appclientevip.listeners;
 
 import android.widget.Button;
 
-import app.bizo.appclientevip.telas.R;
+import app.bizo.appclientevip.views.R;
 
 public class Contador implements ContadorListener {
 

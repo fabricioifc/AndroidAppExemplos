@@ -39,7 +39,7 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/editEmail"
+        android:id="@+id/edtEmailLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -47,7 +47,7 @@
         android:inputType="textEmailAddress" />
 
     <TextView
-        android:id="@+id/txtSenhaA"
+        android:id="@+id/txtSenhaLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/txtSenhalUsuario"
@@ -55,7 +55,7 @@
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/editSenhaA"
+        android:id="@+id/edtSenhaLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -72,17 +72,18 @@
         android:orientation="horizontal">
 
         <CheckBox
-            android:id="@+id/chkLembrar"
+            android:id="@+id/chkLembrarLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:checked="true"
             android:text="@string/txtLembrarUsuario"
+            android:onClick="LembrarSenha"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtRecurarSenha"
+            android:id="@+id/txtRecurarSenhaLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -101,7 +102,7 @@
         android:layout_centerHorizontal="true">
 
         <Button
-            android:id="@+id/btnAcessar"
+            android:id="@+id/btnAcessarLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -114,7 +115,7 @@
             android:textAllCaps="true" />
 
         <Button
-            android:id="@+id/btnSejaVip"
+            android:id="@+id/btnSejaVipLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -143,7 +144,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/txtVersaoApp"
+            android:id="@+id/txtVersaoAppLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -156,7 +157,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/txtLerPolitica"
+            android:id="@+id/txtLerPoliticaLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"

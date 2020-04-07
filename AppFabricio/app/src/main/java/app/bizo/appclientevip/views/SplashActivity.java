@@ -1,4 +1,4 @@
-package app.bizo.appclientevip.telas;
+package app.bizo.appclientevip.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import api.AppUtil;
+import api.PreferenciasUtil;
 
 public class SplashActivity extends AppCompatActivity {
+
+    private boolean loginAutomatico;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +19,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         getSupportActionBar().hide();
 
+        restaurarPreferencias();
         inicializarAplicativo();
     }
 
@@ -23,11 +27,16 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent tela = new Intent(SplashActivity.this, LoginActivity.class);
+                Intent tela = new Intent(SplashActivity.this,
+                        loginAutomatico ? MainActivity.class : LoginActivity.class);
                 startActivity(tela);
                 finish();
                 return;
             }
         }, AppUtil.TIME_SPLASH);
+    }
+
+    private void restaurarPreferencias() {
+        this.loginAutomatico = PreferenciasUtil.getBooleanData(getApplicationContext(), "lembrarSenha");
     }
 }
