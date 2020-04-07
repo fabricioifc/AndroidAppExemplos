@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">App Cliente VIP</string>
+    <string name="admin_name">Fabricio Bizotto</string>
+    <string name="txtNomeUsuario">Informe seu Nome</string>
+    <string name="txtEmailUsuario">Informe seu E-mail</string>
+    <string name="txtSenhalUsuario">Senha</string>
+    <string name="edtSenhaHint">Informe sua Senha</string>
+    <string name="txtSenhaConfirmar">Repetir a Senha</string>
+    <string name="edtSenhaConfirmarHint">Repita sua Senha</string>
+    <string name="txtSenhasDiferentes">As senhas não são iguais</string>
+    <string name="txtLogin">Login</string>
+    <string name="txtLembrarUsuario">Lembrar?</string>
+    <string name="txtRecurarSenha">Recuperar Senha</string>
+    <string name="btnAcessar">Acessar</string>
+    <string name="btnSejaVip">Seja VIP</string>
+    <string name="txtVersapApp">v1.0</string>
+    <string name="txtLerPolitica">Ler Políticas de Privacidade - Termos de Uso</string>
+</resources>
