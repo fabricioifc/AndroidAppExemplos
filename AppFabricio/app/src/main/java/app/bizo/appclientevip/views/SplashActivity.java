@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import api.AppUtil;
-import api.PreferenciasUtil;
+import app.bizo.appclientevip.api.AppDatabase;
+import app.bizo.appclientevip.api.AppUtil;
+import app.bizo.appclientevip.api.PreferenciasUtil;
 
 public class SplashActivity extends AppCompatActivity {
 
     private boolean loginAutomatico;
+    private AppDatabase appDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,13 +22,19 @@ public class SplashActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         restaurarPreferencias();
+        inicializarBancoDeDados();
         inicializarAplicativo();
+    }
+
+    private void inicializarBancoDeDados() {
+        appDatabase = new AppDatabase(this);
     }
 
     private void inicializarAplicativo() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 Intent tela = new Intent(SplashActivity.this,
                         loginAutomatico ? MainActivity.class : LoginActivity.class);
                 startActivity(tela);

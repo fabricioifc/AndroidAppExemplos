@@ -9,11 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RecuperarSenhaActivity"></activity>
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".CadastroUsuarioActivity" />
-        <activity android:name=".SplashActivity">
+        <activity android:name="app.bizo.appclientevip.views.UsuarioListaActivity"></activity>
+        <activity android:name="app.bizo.appclientevip.views.RecuperarSenhaActivity" />
+        <activity android:name="app.bizo.appclientevip.views.LoginActivity" />
+        <activity android:name="app.bizo.appclientevip.views.MainActivity" />
+        <activity android:name="app.bizo.appclientevip.views.UsuarioFormActivity" />
+        <activity android:name="app.bizo.appclientevip.views.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

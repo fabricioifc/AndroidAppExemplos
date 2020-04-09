@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="8dp"
     android:orientation="vertical"
-    tools:context=".CadastroUsuarioActivity">
+    tools:context=".UsuarioFormActivity">
 
     <TextView
         android:id="@+id/txtCadastro"

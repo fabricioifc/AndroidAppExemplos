@@ -1,7 +1,5 @@
 package app.bizo.appclientevip.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,7 +16,7 @@ public class MainActivity extends ActivityBase implements View.OnClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private Button btnIncrementar, btnDecrementar, btnIrParaCadastroUsuario;
+    private Button btnIncrementar, btnDecrementar, btnIrParaUsuarios;
     private TextView txtContador;
     private ProgressBar progressBar;
 
@@ -37,18 +35,19 @@ public class MainActivity extends ActivityBase implements View.OnClickListener {
 
         btnIncrementar = (Button) findViewById(R.id.btnIncrementar);
         btnDecrementar = (Button) findViewById(R.id.btnDecrementar);
-        btnIrParaCadastroUsuario = (Button) findViewById(R.id.btnIrParaCadastroUsuario);
+        btnIrParaUsuarios = (Button) findViewById(R.id.btnIrParaUsuarios);
         txtContador = (TextView) findViewById(R.id.txtContador);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setIndeterminate(true);
 
         btnIncrementar.setOnClickListener(this);
         btnDecrementar.setOnClickListener(this);
-        btnIrParaCadastroUsuario.setOnClickListener(new View.OnClickListener() {
+        btnIrParaUsuarios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent tela = new Intent(MainActivity.this, CadastroUsuarioActivity.class);
+                Intent tela = new Intent(MainActivity.this, UsuarioListaActivity.class);
                 startActivity(tela);
+                finish();
             }
         });
     }

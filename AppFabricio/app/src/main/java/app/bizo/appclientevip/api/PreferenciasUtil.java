@@ -1,9 +1,7 @@
-package api;
+package app.bizo.appclientevip.api;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.text.TextUtils;
 
 public final class PreferenciasUtil {
 

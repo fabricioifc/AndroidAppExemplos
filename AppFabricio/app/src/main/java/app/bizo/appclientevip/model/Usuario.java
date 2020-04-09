@@ -1,6 +1,8 @@
 package app.bizo.appclientevip.model;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
     private Integer id;
     private String nome;
     private String email;
@@ -8,6 +10,14 @@ public class Usuario {
     private Boolean aceitouTermosUso;
 
     public Usuario() {
+    }
+
+    public Usuario(Integer id, String nome, String email, String senha, Boolean aceitouTermosUso) {
+        this.id = id;
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.aceitouTermosUso = aceitouTermosUso;
     }
 
     public Boolean getAceitouTermosUso() {
@@ -48,5 +58,16 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", email='" + email + '\'' +
+                ", senha='" + senha + '\'' +
+                ", aceitouTermosUso=" + aceitouTermosUso +
+                '}';
     }
 }

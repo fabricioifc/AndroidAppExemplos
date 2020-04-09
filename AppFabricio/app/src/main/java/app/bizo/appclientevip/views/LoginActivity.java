@@ -1,7 +1,5 @@
 package app.bizo.appclientevip.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,7 +12,7 @@ import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
-import api.PreferenciasUtil;
+import app.bizo.appclientevip.api.PreferenciasUtil;
 import app.bizo.appclientevip.controller.UsuarioController;
 
 public class LoginActivity extends ActivityBase {
@@ -29,7 +27,7 @@ public class LoginActivity extends ActivityBase {
     private UsuarioController controller;
 
     public LoginActivity() {
-        controller = new UsuarioController();
+        controller = new UsuarioController(this);
     }
 
     @Override

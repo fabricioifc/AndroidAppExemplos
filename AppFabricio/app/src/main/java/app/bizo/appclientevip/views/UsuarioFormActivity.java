@@ -1,25 +1,22 @@
 package app.bizo.appclientevip.views;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import api.PreferenciasUtil;
+import com.google.android.material.snackbar.Snackbar;
+
 import app.bizo.appclientevip.controller.UsuarioController;
 import app.bizo.appclientevip.model.Usuario;
 
-public class CadastroUsuarioActivity extends ActivityBase {
+public class UsuarioFormActivity extends ActivityBase {
 
-    private static final String TAG = CadastroUsuarioActivity.class.getSimpleName();
+    private static final String TAG = UsuarioFormActivity.class.getSimpleName();
 
     private EditText edtNome;
     private EditText edtEmail;
@@ -31,6 +28,10 @@ public class CadastroUsuarioActivity extends ActivityBase {
     private Usuario usuario;
     private UsuarioController controller;
 
+    public UsuarioFormActivity() {
+        controller = new UsuarioController(UsuarioFormActivity.this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,21 +40,29 @@ public class CadastroUsuarioActivity extends ActivityBase {
 
         initFormulario();
 
-        Log.i(TAG, PreferenciasUtil.getStringData(getApplicationContext(), "usuarioNome"));
-
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (validarFormulario()){
-                    usuario = new Usuario();
+                    if (usuario== null || usuario.getId()==null){
+                        usuario = new Usuario();
+                        usuario.setId(null);
+                    }
+
                     usuario.setNome(edtNome.getText().toString());
                     usuario.setEmail(edtEmail.getText().toString());
                     usuario.setSenha(edtSenha.getText().toString());
                     usuario.setAceitouTermosUso(chkTermosUso.isChecked());
-                    usuario.setId(null);
 
-                    controller = new UsuarioController();
-                    controller.salvar(getApplicationContext(), usuario);
+                    if (controller.salvar(usuario)) {
+                        Intent tela = new Intent(UsuarioFormActivity.this, UsuarioListaActivity.class);
+                        tela.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                        finish();
+//                        Snackbar.make(null, "Cadastro Efetuado com Sucesso!", Snackbar.LENGTH_SHORT).show();
+                        return;
+                    } else {
+                        Snackbar.make(v, "Um erro ocorreu!", Snackbar.LENGTH_LONG).show();
+                    }
                 }
             }
         });
@@ -66,6 +75,11 @@ public class CadastroUsuarioActivity extends ActivityBase {
         edtSenhaConfirmar = (EditText) findViewById(R.id.edtSenhaConfirmar);
         chkTermosUso = (CheckBox) findViewById(R.id.chkConfirmarTermos);
         btnCadastrar = (Button) findViewById(R.id.btnCadastrarUsuario);
+
+        Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
+        if (usuario != null){
+            carregarDados(controller.buscarPorId(usuario.getId()));
+        }
     }
 
     public void validarTermoUso(View view){
@@ -113,6 +127,16 @@ public class CadastroUsuarioActivity extends ActivityBase {
 
     private boolean validarSenha() {
         return TextUtils.equals(edtSenha.getText(), edtSenhaConfirmar.getText());
+    }
+
+    private void carregarDados(Usuario usuario) {
+        this.usuario = usuario;
+        if (usuario != null){
+            edtNome.setText(usuario.getNome());
+            edtEmail.setText(usuario.getEmail());
+            chkTermosUso.setChecked(usuario.getAceitouTermosUso());
+        }
+        Toast.makeText(this, usuario.toString(), Toast.LENGTH_SHORT).show();
     }
 
 }
