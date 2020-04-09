@@ -77,6 +77,11 @@ public class LoginActivity extends ActivityBase {
         });
     }
 
+    @Override
+    public void iniciarComponentes() {
+
+    }
+
     private boolean validarFormulario() {
         isValido = true;
         if (TextUtils.isEmpty(edtEmail.getText().toString())) {

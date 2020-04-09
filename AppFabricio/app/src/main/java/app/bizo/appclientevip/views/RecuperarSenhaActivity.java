@@ -11,6 +11,10 @@ public class RecuperarSenhaActivity extends ActivityBase {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public void iniciarComponentes() {
+
+    }
 
 
 }

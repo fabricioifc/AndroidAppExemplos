@@ -78,4 +78,9 @@ public class MainActivity extends ActivityBase implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void iniciarComponentes() {
+
+    }
+
 }

@@ -38,7 +38,7 @@ public class UsuarioFormActivity extends ActivityBase {
         setContentView(R.layout.activity_cadastro_usuario);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        initFormulario();
+        iniciarComponentes();
 
         btnCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,7 +68,8 @@ public class UsuarioFormActivity extends ActivityBase {
         });
     }
 
-    private void initFormulario() {
+    @Override
+    public void iniciarComponentes() {
         edtNome = (EditText) findViewById(R.id.edtNome);
         edtEmail = (EditText) findViewById(R.id.edtEmail);
         edtSenha = (EditText) findViewById(R.id.edtSenha);

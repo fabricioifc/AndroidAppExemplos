@@ -32,22 +32,12 @@ public class UsuarioListaActivity extends ActivityBase {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setTitle("Lista de Usuários");
 
-        init();
+        iniciarComponentes();
         carregarLista();
     }
 
-    private void init() {
-
-    }
-
     @Override
-    protected void onResume() {
-        super.onResume();
-
-        ((UsuarioAdapter) adapter).updateData(controller.listarTodos());
-    }
-
-    private void carregarLista() {
+    public void iniciarComponentes() {
         recyclerView = (RecyclerView) findViewById(R.id.usuarioListaView);
         recyclerView.setHasFixedSize(true);
 
@@ -59,6 +49,17 @@ public class UsuarioListaActivity extends ActivityBase {
 
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        carregarLista();
+    }
+
+    private void carregarLista() {
+        ((UsuarioAdapter) adapter).updateData(controller.listarTodos());
     }
 
     @Override
