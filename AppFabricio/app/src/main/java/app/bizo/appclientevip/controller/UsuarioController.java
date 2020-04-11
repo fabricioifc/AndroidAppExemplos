@@ -3,6 +3,7 @@ package app.bizo.appclientevip.controller;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -10,24 +11,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 import app.bizo.appclientevip.api.AppDatabase;
+import app.bizo.appclientevip.api.PreferenciasUtil;
+import app.bizo.appclientevip.dao.UsuarioDao;
 import app.bizo.appclientevip.datamodel.UsuarioDataModel;
 import app.bizo.appclientevip.model.Usuario;
 
-public class UsuarioController extends AppDatabase {
+public class UsuarioController  {
 
-    private static final String EMAIL_TESTE = "fabricio.bizotto@gmail.com";
-    private static final String SENHA_TESTE = "123456";
+//    private static final String EMAIL_TESTE = "fabricio.bizotto@gmail.com";
+//    private static final String SENHA_TESTE = "123456";
 
+    private UsuarioDao dao;
     private UsuarioDataModel dataModel;
+    private Context context;
 
     public UsuarioController(@Nullable Context context) {
-        super(context);
+        dao = new UsuarioDao(context);
     }
 
     public boolean validarUsuario(String email, String senha) {
-        if (email.equalsIgnoreCase(EMAIL_TESTE) && senha.equals(SENHA_TESTE)) {
+        Cursor usuario =  dao.validarUsuarioSenha(UsuarioDataModel.TABELA, email, senha);
+
+        if (usuario.moveToFirst()) {
+            Integer idUsuario = usuario.getInt(usuario.getColumnIndexOrThrow(UsuarioDataModel.ID));
+            String emailUsuario = usuario.getString(usuario.getColumnIndexOrThrow(UsuarioDataModel.EMAIL));
+            PreferenciasUtil.saveData(context, "usuario_id", idUsuario);
+            PreferenciasUtil.saveData(context, "usuario_email", emailUsuario);
             return true;
         }
+
         return false;
     }
 
@@ -39,23 +51,23 @@ public class UsuarioController extends AppDatabase {
         dados.put(UsuarioDataModel.SENHA, usuario.getSenha());
         dados.put(UsuarioDataModel.ACEITOU_TERMOS_USO, usuario.getAceitouTermosUso());
         if (usuario.getId() == null) {
-            return inserir(UsuarioDataModel.TABELA, dados);
+            return dao.inserir(UsuarioDataModel.TABELA, dados);
         } else {
-            return atualizar(UsuarioDataModel.TABELA,
+            return dao.atualizar(UsuarioDataModel.TABELA,
                     dados,
                     UsuarioDataModel.ID + "=?",
                     new String[]{String.valueOf(usuario.getId())});
         }
     }
 
-    public boolean remover(Usuario usuario) {
-        return excluir(UsuarioDataModel.TABELA,
+    public boolean remover(int usuarioId) {
+        return dao.excluir(UsuarioDataModel.TABELA,
                 UsuarioDataModel.ID + "=?",
-                new String[]{String.valueOf(usuario.getId())});
+                new String[]{String.valueOf(usuarioId)});
     }
 
     public List<Usuario> listarTodos() {
-        Cursor cursor = listar(UsuarioDataModel.TABELA);
+        Cursor cursor = dao.listar(UsuarioDataModel.TABELA);
         List<Usuario> lista = new ArrayList<>();
 
         if (cursor.moveToFirst()){
@@ -74,7 +86,7 @@ public class UsuarioController extends AppDatabase {
     }
 
     public Usuario buscarPorId(int id) {
-        Cursor cursor = buscarPorId(UsuarioDataModel.TABELA, id);
+        Cursor cursor = dao.buscarPorId(UsuarioDataModel.TABELA, id);
         Usuario usuario = null;
 
         if (cursor.moveToFirst()){

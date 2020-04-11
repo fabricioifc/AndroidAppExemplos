@@ -1,8 +1,12 @@
 package app.bizo.appclientevip.adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,24 +23,29 @@ import app.bizo.appclientevip.model.Usuario;
 import app.bizo.appclientevip.views.R;
 import app.bizo.appclientevip.views.UsuarioFormActivity;
 
-public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.ViewHolder> {
+public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioViewHolder> {
 
     private Context context;
     private List<Usuario> lista;
     private LayoutInflater mInflater;
+    private final UsuarioAdapterListener listener;
 
-    public UsuarioAdapter(Context context, List<Usuario> lista){
+    public UsuarioAdapter(Context context, List<Usuario> lista, UsuarioAdapterListener listener){
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
         this.lista = lista;
+        this.listener = listener;
     }
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class UsuarioViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView usuarioListaItemNome, usuarioListaItemEmail;
+        private Usuario objeto;
+        private WeakReference<UsuarioAdapterListener> listenerRef;
 
-        ViewHolder(View itemView) {
+        UsuarioViewHolder(View itemView) {
             super(itemView);
+            listenerRef = new WeakReference<>(listener);
             usuarioListaItemNome = itemView.findViewById(R.id.usuarioListaItemNome);
             usuarioListaItemEmail = itemView.findViewById(R.id.usuarioListaItemEmail);
             itemView.setOnClickListener(this);
@@ -43,26 +53,37 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.ViewHold
 
         @Override
         public void onClick(View view) {
-            Intent usuarioForm = new Intent(view.getContext(), UsuarioFormActivity.class);
-            usuarioForm.putExtra("usuario", lista.get(getLayoutPosition()));
-            view.getContext().startActivity(usuarioForm);
-//            ((Activity)view.getContext()).finish();
-//            view.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.beige));
-//            Toast.makeText(view.getContext(), "Posição: "+posicao, Toast.LENGTH_SHORT).show();
+            listenerRef.get().onPositionClicked(getAdapterPosition(), objeto);
         }
+
+        public void bind(Usuario usuario) {
+            this.objeto = usuario;
+            usuarioListaItemNome.setText(usuario.getNome());
+            usuarioListaItemEmail.setText(usuario.getEmail());
+        }
+
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UsuarioViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.usuario_lista_linha, parent, false);
-        return new ViewHolder(view);
+        return new UsuarioViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(UsuarioViewHolder holder, int position) {
         Usuario usuario = lista.get(position);
-        holder.usuarioListaItemNome.setText(usuario.getNome());
-        holder.usuarioListaItemEmail.setText(usuario.getEmail());
+        holder.bind(usuario);
+    }
+
+    public void addItem(Usuario model) {
+        lista.add(model);
+        notifyItemInserted(getItemCount());
+    }
+
+    public void removeItem(int posicao) {
+        lista.remove(posicao);
+        notifyItemRemoved(posicao);
     }
 
     // total number of rows

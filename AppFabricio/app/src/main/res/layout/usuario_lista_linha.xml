@@ -7,18 +7,17 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-        <TextView
-            android:id="@+id/usuarioListaItemNome"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        />
+    <TextView
+        android:id="@+id/usuarioListaItemNome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/usuarioListaItemEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"/>
+    <TextView
+        android:id="@+id/usuarioListaItemEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
 </LinearLayout>

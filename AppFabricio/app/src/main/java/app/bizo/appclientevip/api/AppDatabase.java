@@ -18,9 +18,11 @@ public class AppDatabase extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "appfabriciodb.sqlite";
     private static final int DB_VERSION = 1;
+    protected Context context;
 
     public AppDatabase(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+        this.context = context;
     }
 
     /**
@@ -46,25 +48,5 @@ public class AppDatabase extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean inserir(String tabela, ContentValues dados) {
-        SQLiteDatabase db = getWritableDatabase();
-        return db.insert(tabela, null, dados) != -1;
-    }
-    public boolean atualizar(String tabela, ContentValues dados, String condicao, String[] condicaoValores) {
-        SQLiteDatabase db = getWritableDatabase();
-        return db.update(tabela, dados, condicao, condicaoValores) == 1;
-    }
-    public boolean excluir(String tabela, String condicao, String[] condicaoValores) {
-        SQLiteDatabase db = getWritableDatabase();
-        return db.delete(tabela, condicao, condicaoValores) == 1;
-    }
-    public Cursor listar(String tabela) {
-        SQLiteDatabase db = getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + tabela, null);
-    }
 
-    public Cursor buscarPorId(String tabela, int id) {
-        SQLiteDatabase db = getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + tabela + " where id =?", new String[]{String.valueOf(id)});
-    }
 }

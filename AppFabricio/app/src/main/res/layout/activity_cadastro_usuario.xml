@@ -9,15 +9,6 @@
     tools:context=".UsuarioFormActivity">
 
     <TextView
-        android:id="@+id/txtCadastro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Cadastro"
-        android:textSize="36dp"
-        android:textStyle="bold" />
-
-    <TextView
         android:id="@+id/txtNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -88,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/primary"
         android:paddingHorizontal="20dp"
         android:text="Cadastrar"
         android:textColor="@color/white" />

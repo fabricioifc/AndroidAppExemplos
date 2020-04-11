@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public abstract class ActivityBase extends AppCompatActivity {
 
+    protected final String TAG = this.getClass().getName();
+    protected final ActivityBase minhaTela = this;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

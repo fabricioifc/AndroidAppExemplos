@@ -9,14 +9,14 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import app.bizo.appclientevip.controller.UsuarioController;
 import app.bizo.appclientevip.model.Usuario;
 
-public class UsuarioFormActivity extends ActivityBase {
-
-    private static final String TAG = UsuarioFormActivity.class.getSimpleName();
+public class UsuarioFormActivity extends ActivityBase implements View.OnClickListener {
 
     private EditText edtNome;
     private EditText edtEmail;
@@ -29,7 +29,7 @@ public class UsuarioFormActivity extends ActivityBase {
     private UsuarioController controller;
 
     public UsuarioFormActivity() {
-        controller = new UsuarioController(UsuarioFormActivity.this);
+        controller = new UsuarioController(minhaTela);
     }
 
     @Override
@@ -39,33 +39,7 @@ public class UsuarioFormActivity extends ActivityBase {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         iniciarComponentes();
-
-        btnCadastrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (validarFormulario()){
-                    if (usuario== null || usuario.getId()==null){
-                        usuario = new Usuario();
-                        usuario.setId(null);
-                    }
-
-                    usuario.setNome(edtNome.getText().toString());
-                    usuario.setEmail(edtEmail.getText().toString());
-                    usuario.setSenha(edtSenha.getText().toString());
-                    usuario.setAceitouTermosUso(chkTermosUso.isChecked());
-
-                    if (controller.salvar(usuario)) {
-                        Intent tela = new Intent(UsuarioFormActivity.this, UsuarioListaActivity.class);
-                        tela.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                        finish();
-//                        Snackbar.make(null, "Cadastro Efetuado com Sucesso!", Snackbar.LENGTH_SHORT).show();
-                        return;
-                    } else {
-                        Snackbar.make(v, "Um erro ocorreu!", Snackbar.LENGTH_LONG).show();
-                    }
-                }
-            }
-        });
+        iniciarListeners();
     }
 
     @Override
@@ -83,13 +57,26 @@ public class UsuarioFormActivity extends ActivityBase {
         }
     }
 
-    public void validarTermoUso(View view){
-        if (!chkTermosUso.isChecked()){
-            chkTermosUso.setTextColor(this.getResources().getColor(R.color.red));
-            Toast.makeText(getApplicationContext(), "É necessário ler e confirmar os termos de uso", Toast.LENGTH_LONG).show();
+    private void iniciarListeners() {
+        btnCadastrar.setOnClickListener(this);
+    }
+
+    private boolean validarTermosUso() {
+        if(chkTermosUso.isChecked()){
+            chkTermosUso.setError(null);
+            chkTermosUso.setTextColor(ContextCompat.getColor(this, R.color.primary_text));
+            return true;
         } else {
-            chkTermosUso.setTextColor(this.getResources().getColor(R.color.black));
+            chkTermosUso.setError(this.getResources().getString(R.string.termos_uso_error));
+            chkTermosUso.setTextColor(ContextCompat.getColor(this, R.color.red));
+            chkTermosUso.requestFocus();
+            Toast.makeText(this, R.string.termos_uso_error, Toast.LENGTH_SHORT).show();
+            return false;
         }
+    }
+
+    public void validarTermoUso(View view){
+        validarTermosUso();
     }
 
     private boolean validarFormulario() {
@@ -123,6 +110,10 @@ public class UsuarioFormActivity extends ActivityBase {
             Toast.makeText(this, R.string.txtSenhasDiferentes, Toast.LENGTH_SHORT).show();
             return false;
         }
+
+        if (!validarTermosUso()) {
+            return false;
+        }
         return true;
     }
 
@@ -136,8 +127,38 @@ public class UsuarioFormActivity extends ActivityBase {
             edtNome.setText(usuario.getNome());
             edtEmail.setText(usuario.getEmail());
             chkTermosUso.setChecked(usuario.getAceitouTermosUso());
+            Toast.makeText(this, usuario.toString(), Toast.LENGTH_SHORT).show();
         }
-        Toast.makeText(this, usuario.toString(), Toast.LENGTH_SHORT).show();
+
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.btnCadastrarUsuario:
+                if (validarFormulario()){
+                    if (usuario== null || usuario.getId()==null){
+                        usuario = new Usuario();
+                        usuario.setId(null);
+                    }
+
+                    usuario.setNome(edtNome.getText().toString());
+                    usuario.setEmail(edtEmail.getText().toString());
+                    usuario.setSenha(edtSenha.getText().toString());
+                    usuario.setAceitouTermosUso(chkTermosUso.isChecked());
+
+                    if (controller.salvar(usuario)) {
+                        Intent intent = new Intent(minhaTela, UsuarioListaActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+//                        ((UsuarioListaActivity) tela).adicionarItem(usuario);
+                        finish();
+//                        Snackbar.make(null, "Cadastro Efetuado com Sucesso!", Snackbar.LENGTH_SHORT).show();
+                        return;
+                    } else {
+                        Snackbar.make(view, "Um erro ocorreu!", Snackbar.LENGTH_LONG).show();
+                    }
+                }
+                break;
+        }
+    }
 }

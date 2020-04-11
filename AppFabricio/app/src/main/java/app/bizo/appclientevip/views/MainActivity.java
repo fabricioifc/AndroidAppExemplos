@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import app.bizo.appclientevip.api.PreferenciasUtil;
 import app.bizo.appclientevip.listeners.Contador;
 
 public class MainActivity extends ActivityBase implements View.OnClickListener {
@@ -17,7 +18,7 @@ public class MainActivity extends ActivityBase implements View.OnClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private Button btnIncrementar, btnDecrementar, btnIrParaUsuarios;
-    private TextView txtContador;
+    private TextView txtContador, txtOlaMundo;
     private ProgressBar progressBar;
 
     private Handler handler;
@@ -37,6 +38,7 @@ public class MainActivity extends ActivityBase implements View.OnClickListener {
         btnDecrementar = (Button) findViewById(R.id.btnDecrementar);
         btnIrParaUsuarios = (Button) findViewById(R.id.btnIrParaUsuarios);
         txtContador = (TextView) findViewById(R.id.txtContador);
+        txtOlaMundo = (TextView) findViewById(R.id.olamundo);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setIndeterminate(true);
 
@@ -47,9 +49,11 @@ public class MainActivity extends ActivityBase implements View.OnClickListener {
             public void onClick(View v) {
                 Intent tela = new Intent(MainActivity.this, UsuarioListaActivity.class);
                 startActivity(tela);
-                finish();
+//                finish();
             }
         });
+
+        txtOlaMundo.setText(PreferenciasUtil.getStringData(this, "usuario_email"));
     }
 
     @Override

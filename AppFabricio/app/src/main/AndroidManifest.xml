@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.bizo.appclientevip.views">
-
+    <!-- This is required for Picasso to work. -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,12 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="app.bizo.appclientevip.views.UsuarioListaActivity"></activity>
-        <activity android:name="app.bizo.appclientevip.views.RecuperarSenhaActivity" />
-        <activity android:name="app.bizo.appclientevip.views.LoginActivity" />
-        <activity android:name="app.bizo.appclientevip.views.MainActivity" />
-        <activity android:name="app.bizo.appclientevip.views.UsuarioFormActivity" />
-        <activity android:name="app.bizo.appclientevip.views.SplashActivity">
+        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".UsuarioListaActivity" />
+        <activity android:name=".RecuperarSenhaActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".MainActivity" />
+        <activity android:name=".UsuarioFormActivity" />
+        <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,5 +23,8 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

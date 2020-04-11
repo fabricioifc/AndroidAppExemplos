@@ -1,26 +1,38 @@
 package app.bizo.appclientevip.views;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import app.bizo.appclientevip.api.PreferenciasUtil;
 import app.bizo.appclientevip.controller.UsuarioController;
 
 public class LoginActivity extends ActivityBase {
 
-    private EditText edtEmail, edtSenha;
-    private TextView txtRecuperarSenha, txtLerPolitica;
+    private static final String TAG = LoginActivity.class.getSimpleName();
+
+    private TextInputEditText edtEmail, edtSenha;
+    private TextView txtRecuperarSenha, txtLerPolitica, btnLoginSignUp;
     private CheckBox chkLembrar;
-    private Button btnAcessar, btnSejaVip;
+    private Button btnAcessar;
+    private ImageView imgLogo;
 
     private boolean isValido = false, isLembrarSenha = true;
 
@@ -75,6 +87,17 @@ public class LoginActivity extends ActivityBase {
                 }
             }
         });
+
+        btnLoginSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent tela = new Intent(view.getContext(), SignUpActivity.class);
+                tela.putExtra("telaAnterior", LoginActivity.this.getClass());
+                startActivity(tela);
+//                finish();
+                return;
+            }
+        });
     }
 
     @Override
@@ -112,18 +135,28 @@ public class LoginActivity extends ActivityBase {
     }
 
     private void initFormulario() {
-        edtEmail = (EditText) findViewById(R.id.edtEmailLogin);
-        edtSenha = (EditText) findViewById(R.id.edtSenhaLogin);
+        edtEmail = (TextInputEditText) findViewById(R.id.edtEmailLogin);
+        edtSenha = (TextInputEditText) findViewById(R.id.edtSenhaLogin);
         txtRecuperarSenha = (TextView) findViewById(R.id.txtRecurarSenhaLogin);
         txtLerPolitica = (TextView) findViewById(R.id.txtLerPoliticaLogin);
         chkLembrar = (CheckBox) findViewById(R.id.chkLembrarLogin);
-        btnAcessar = (Button) findViewById(R.id.btnAcessarLogin);
-        btnSejaVip = (Button) findViewById(R.id.btnSejaVipLogin);
+        btnAcessar = (Button) findViewById(R.id.btnSignIn);
+        btnLoginSignUp = (TextView) findViewById(R.id.btnLoginSignUp);
+        imgLogo = (ImageView) findViewById(R.id.imgLogo);
+
+        Picasso.get().setLoggingEnabled(true);
+        Picasso.get()
+                .load(R.mipmap.logo)
+//                .load("https://pngimage.net/wp-content/uploads/2018/06/sample-logo-png-transparent-background-4.png")
+                .into(imgLogo);
 
         isValido = false;
     }
 
     public void LembrarSenha(View view) {
         isLembrarSenha = chkLembrar.isChecked();
+    }
+
+    public void validarTermoUso(View view) {
     }
 }

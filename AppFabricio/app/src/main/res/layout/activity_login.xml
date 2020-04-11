@@ -1,133 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_login_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/bg"
     tools:context=".LoginActivity">
 
-    <TextView
-        android:id="@+id/txtAppName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:text="@string/app_name"
-        android:textSize="36dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:textStyle="bold" />
-
-
-    <TextView
-        android:id="@+id/txtLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:text="@string/txtLogin"
-        android:textColor="@color/colorPrimary"
-        android:textSize="36dp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/txtEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txtEmailUsuario"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/edtEmailLogin"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/txtEmailUsuario"
-        android:inputType="textEmailAddress" />
+        android:paddingTop="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
 
-    <TextView
-        android:id="@+id/txtSenhaLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/txtSenhalUsuario"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold" />
-
-    <EditText
-        android:id="@+id/edtSenhaLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/txtSenhalUsuario"
-        android:inputType="numberPassword" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:orientation="horizontal">
-
-        <CheckBox
-            android:id="@+id/chkLembrarLogin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="156dp"
+            android:layout_height="156dp"
             android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="@string/txtLembrarUsuario"
-            android:onClick="LembrarSenha"
-            android:textStyle="bold" />
+            android:layout_marginBottom="4dp"
+             />
 
-        <TextView
-            android:id="@+id/txtRecurarSenhaLogin"
-            android:layout_width="wrap_content"
+        <!-- Email Label -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical|right"
-            android:padding="9dp"
-            android:text="@string/txtRecurarSenha"
-            android:textColor="@color/colorAccent"
-            android:textStyle="bold" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEmailLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:hint="@string/txtEmailUsuario"
+                />
 
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true">
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/btnAcessarLogin"
-            android:layout_width="wrap_content"
+        <!-- Password Label -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:background="@color/colorPrimary"
-            android:text="@string/btnAcessar"
-            android:textColor="@color/white_smoke"
-            android:layout_marginHorizontal="8dp"
-            android:textAllCaps="true" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
 
-        <Button
-            android:id="@+id/btnSejaVipLogin"
-            android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtSenhaLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberPassword"
+                android:hint="@string/txtSenhalUsuario"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_marginHorizontal="8dp"
-            android:layout_weight="1"
-            android:background="@color/colorPrimaryDark"
-            android:textColor="@color/white_smoke"
-            android:text="@string/btnSejaVip"
-            android:textAllCaps="true" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="horizontal">
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <CheckBox
+                android:id="@+id/chkLembrarLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/txtLembrarUsuario"
+                android:onClick="LembrarSenha"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtRecurarSenhaLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical|right"
+                android:padding="9dp"
+                android:text="@string/txtRecurarSenha"
+                android:textColor="@color/accent"
+                android:textStyle="bold" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSignIn"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:padding="16dp"
+            android:background="@color/accent"
+            android:textColor="@color/primary_text"
+            android:text="Login"/>
+
+        <TextView android:id="@+id/btnLoginSignUp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/naoTemContaAinda"
+            android:gravity="center"
+            android:textColor="@color/accent"
+            android:textSize="16dip"/>
+
+    </LinearLayout>
 
     <View
         android:id="@+id/divider"
@@ -152,7 +138,7 @@
             android:padding="4dp"
             android:text="@string/txtVersapApp"
             android:textAlignment="center"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/accent"
             android:textSize="14dp"
             android:textStyle="bold" />
 
@@ -165,9 +151,8 @@
             android:padding="4dp"
             android:text="@string/txtLerPolitica"
             android:textAlignment="center"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/accent"
             android:textSize="14dp"
             android:textStyle="bold" />
     </androidx.appcompat.widget.LinearLayoutCompat>
-
 </androidx.appcompat.widget.LinearLayoutCompat>
