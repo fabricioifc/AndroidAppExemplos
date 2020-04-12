@@ -38,6 +38,14 @@ public class UsuarioDao extends AppDatabase {
         return db.rawQuery("SELECT * FROM " + tabela + " where id =?", new String[]{String.valueOf(id)});
     }
 
+    public Cursor buscarPorEmail(String tabela, Integer id, String email) {
+        SQLiteDatabase db = getReadableDatabase();
+        if (id != null){
+            return db.rawQuery("SELECT * FROM " + tabela + " where email =? and id !=?", new String[]{email, String.valueOf(id)});
+        }
+        return db.rawQuery("SELECT * FROM " + tabela + " where email =?", new String[]{email});
+    }
+
     public Cursor validarUsuarioSenha(String tabela, String email, String senha) {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery(

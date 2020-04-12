@@ -6,6 +6,9 @@ import android.content.SharedPreferences;
 public final class PreferenciasUtil {
 
     public static final String PREF_APP = "app_fabricio_prefes";
+    public static final String PREF_LOGIN_LEMBRAR_SENHA = "lembrarSenha";
+    public static final String PREF_LOGIN_USUARIO_ID = "usuario_id";
+    public static final String PREF_LOGIN_USUARIO_EMAIL = "usuario_email";
 
 
     static public boolean getBooleanData(Context context, String key) {

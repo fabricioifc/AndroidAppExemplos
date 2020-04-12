@@ -18,4 +18,5 @@
     <string name="termos_uso">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean congue tincidunt ex, sed cursus nisi finibus non. Integer varius ex at risus sagittis volutpat. Nullam euismod venenatis turpis lacinia tincidunt. Nulla eget metus eros. Aenean in neque feugiat, hendrerit sapien eget, ullamcorper quam. Phasellus vitae pulvinar nisi, nec consequat metus. Morbi auctor vehicula massa, ut dapibus ex dapibus vitae. Sed sed elit sagittis, consequat mi nec, porta massa. Nulla facilisi. In nisl tortor, ultricies ut pellentesque id, eleifend vitae massa. Phasellus pellentesque condimentum justo nec aliquam.</string>
     <string name="naoTemContaAinda">Não possui conta? Crie sua Conta.</string>
     <string name="termos_uso_error">É necessário ler e confirmar os termos de uso.</string>
+    <string name="usuario_email_existe">E-mail já está sendo utilizado!</string>
 </resources>

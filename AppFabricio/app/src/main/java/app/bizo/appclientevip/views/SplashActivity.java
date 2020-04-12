@@ -9,6 +9,7 @@ import android.os.Handler;
 import app.bizo.appclientevip.api.AppDatabase;
 import app.bizo.appclientevip.api.AppUtil;
 import app.bizo.appclientevip.api.PreferenciasUtil;
+import app.bizo.appclientevip.datamodel.UsuarioDataModel;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -28,6 +29,7 @@ public class SplashActivity extends AppCompatActivity {
 
     private void inicializarBancoDeDados() {
         appDatabase = new AppDatabase(this);
+        appDatabase.addDataModelListener(new UsuarioDataModel());
     }
 
     private void inicializarAplicativo() {

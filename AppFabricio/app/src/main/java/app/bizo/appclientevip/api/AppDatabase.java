@@ -10,6 +10,10 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import app.bizo.appclientevip.datamodel.DataModelListener;
 import app.bizo.appclientevip.datamodel.UsuarioDataModel;
 
 public class AppDatabase extends SQLiteOpenHelper {
@@ -19,23 +23,23 @@ public class AppDatabase extends SQLiteOpenHelper {
     private static final String DB_NAME = "appfabriciodb.sqlite";
     private static final int DB_VERSION = 1;
     protected Context context;
+    private List<DataModelListener> listeners;
 
     public AppDatabase(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
+        listeners = new ArrayList<>();
     }
 
-    /**
-     * Criar as tabelas aqui
-     *
-     * @param db
-     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            String tabelaUsuariosSQL = new UsuarioDataModel().gerarTabela();
-            db.execSQL(tabelaUsuariosSQL);
-            Log.i(TAG, "Tabela Usuario: " + tabelaUsuariosSQL);
+            for (DataModelListener l: listeners){
+                String sql = l.gerarTabela();
+                db.execSQL(sql);
+                Log.i(TAG, "Tabela: " + sql);    
+            }
+            
         } catch (SQLiteException ex) {
             Log.e(TAG,ex.getMessage());
         }
@@ -43,9 +47,15 @@ public class AppDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        String tabelaUsuariosSQL = new UsuarioDataModel().excluirTabela();
-        db.execSQL(tabelaUsuariosSQL);
-        onCreate(db);
+        for (DataModelListener l: listeners) {
+            String sql = l.excluirTabela();
+            db.execSQL(sql);
+            onCreate(db);
+        }
+    }
+    
+    public void addDataModelListener(DataModelListener listener){
+        listeners.add(listener);
     }
 
 

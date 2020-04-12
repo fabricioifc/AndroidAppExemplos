@@ -78,7 +78,7 @@ public class LoginActivity extends ActivityBase {
             public void onClick(View view) {
                 if (validarFormulario() == true) {
                     if (validarDados() == true) {
-                        PreferenciasUtil.saveData(getApplicationContext(), "lembrarSenha", isLembrarSenha);
+                        PreferenciasUtil.saveData(getApplicationContext(), PreferenciasUtil.PREF_LOGIN_LEMBRAR_SENHA, isLembrarSenha);
                         startActivity(new Intent(view.getContext(), MainActivity.class));
                         finish();
                         return;

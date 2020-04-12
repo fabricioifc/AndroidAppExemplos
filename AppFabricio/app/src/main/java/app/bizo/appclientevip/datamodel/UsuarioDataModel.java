@@ -1,6 +1,6 @@
 package app.bizo.appclientevip.datamodel;
 
-public class UsuarioDataModel {
+public class UsuarioDataModel implements DataModelListener {
 
     public static final String TABELA = "usuarios";
 
@@ -10,6 +10,7 @@ public class UsuarioDataModel {
     public static final String SENHA = "senha";
     public static final String ACEITOU_TERMOS_USO = "aceitou_termos_uso";
 
+    @Override
     public String gerarTabela() {
         StringBuilder query = new StringBuilder("");
         query.append("CREATE TABLE IF NOT EXISTS " + TABELA).append("(\n");
@@ -23,6 +24,7 @@ public class UsuarioDataModel {
         return query.toString();
     }
 
+    @Override
     public String excluirTabela() {
         StringBuilder query = new StringBuilder("");
         query.append("DROP TABLE IF EXISTS " + TABELA).append(";");

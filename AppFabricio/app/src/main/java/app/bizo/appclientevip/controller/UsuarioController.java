@@ -26,6 +26,7 @@ public class UsuarioController  {
     private Context context;
 
     public UsuarioController(@Nullable Context context) {
+        this.context = context;
         dao = new UsuarioDao(context);
     }
 
@@ -35,8 +36,8 @@ public class UsuarioController  {
         if (usuario.moveToFirst()) {
             Integer idUsuario = usuario.getInt(usuario.getColumnIndexOrThrow(UsuarioDataModel.ID));
             String emailUsuario = usuario.getString(usuario.getColumnIndexOrThrow(UsuarioDataModel.EMAIL));
-            PreferenciasUtil.saveData(context, "usuario_id", idUsuario);
-            PreferenciasUtil.saveData(context, "usuario_email", emailUsuario);
+            PreferenciasUtil.saveData(context, PreferenciasUtil.PREF_LOGIN_USUARIO_ID, idUsuario);
+            PreferenciasUtil.saveData(context, PreferenciasUtil.PREF_LOGIN_USUARIO_EMAIL, emailUsuario);
             return true;
         }
 
@@ -90,15 +91,30 @@ public class UsuarioController  {
         Usuario usuario = null;
 
         if (cursor.moveToFirst()){
-            usuario = new Usuario(
-                    cursor.getInt(0),
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    cursor.getString(3),
-                    cursor.getInt(4) != 0);
+            usuario = getUsuario(cursor);
         }
 
         return usuario;
+    }
+
+    public Usuario buscarPorEmail(Integer id, String email) {
+        Cursor cursor = dao.buscarPorEmail(UsuarioDataModel.TABELA, id, email);
+        Usuario usuario = null;
+
+        if (cursor.moveToFirst()){
+            usuario = getUsuario(cursor);
+        }
+
+        return usuario;
+    }
+
+    private Usuario getUsuario(Cursor cursor) {
+        return new Usuario(
+            cursor.getInt(0),
+            cursor.getString(1),
+            cursor.getString(2),
+            cursor.getString(3),
+            cursor.getInt(4) != 0);
     }
 
 //    public boolean salvar(Context context, Usuario usuario) {

@@ -6,13 +6,20 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.w3c.dom.Text;
 
@@ -66,13 +73,23 @@ public class UsuarioListaActivity extends ActivityBase {
                 startActivity(tela);
             }
 
+            @Override
+            public void onDelete(int position) {
+                Log.i(TAG, "onDelete: " + usuarios.get(position));
+                if (controller.remover(usuarios.get(position).getId())){
+                    adapter.removeItem(position);
+                } else {
+                    Toast.makeText(UsuarioListaActivity.this, "Erro ao Remover Usuário!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
         });
         recyclerView.setAdapter(adapter);
 
         recyclerView.addItemDecoration(
                 new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -80,6 +97,9 @@ public class UsuarioListaActivity extends ActivityBase {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                int position = viewHolder.getAdapterPosition();
+                final Usuario deletedModel = usuarios.get(position);
+
                 int pos = viewHolder.getAdapterPosition();
                 Log.i(TAG, "onSwiped: " + usuarios.get(pos));
                 if (controller.remover(usuarios.get(pos).getId())){
@@ -118,7 +138,9 @@ public class UsuarioListaActivity extends ActivityBase {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.usuarioListaMenuAdd:
-                startActivity(new Intent(UsuarioListaActivity.this, UsuarioFormActivity.class));
+                Intent tela = new Intent(UsuarioListaActivity.this, SignUpActivity.class);
+                tela.putExtra("telaAnterior", minhaTela.getClass());
+                startActivity(tela);
 //                finish();
                 return true;
         }

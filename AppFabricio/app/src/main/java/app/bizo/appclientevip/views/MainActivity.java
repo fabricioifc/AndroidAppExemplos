@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -85,6 +87,32 @@ public class MainActivity extends ActivityBase implements View.OnClickListener {
     @Override
     public void iniciarComponentes() {
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.mainMenu:
+                logout();
+                Intent tela = new Intent(minhaTela, LoginActivity.class);
+                startActivity(tela);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        PreferenciasUtil.saveData(getApplicationContext(), PreferenciasUtil.PREF_LOGIN_LEMBRAR_SENHA, null);
+        PreferenciasUtil.saveData(getApplicationContext(), PreferenciasUtil.PREF_LOGIN_USUARIO_EMAIL, null);
+        PreferenciasUtil.saveData(getApplicationContext(), PreferenciasUtil.PREF_LOGIN_USUARIO_ID, null);
     }
 
 }

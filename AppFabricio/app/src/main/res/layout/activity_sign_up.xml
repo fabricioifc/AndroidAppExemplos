@@ -6,111 +6,139 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/bg"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:id="@+id/sign_up_main"
+    android:paddingTop="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
-    <LinearLayout
-        android:id="@+id/sign_up_main"
-        android:orientation="vertical"
+    <!-- Nome Label -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtSignUpLayoutNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="16dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
 
-        <!-- Nome Label -->
-        <com.google.android.material.textfield.TextInputLayout
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtSignUpNome"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:hint="@string/txtNomeUsuario"
+            android:inputType="textPersonName" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtSignUpNome"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName"
-                android:hint="@string/txtNomeUsuario"
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Email Label -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtSignUpEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:hint="@string/txtEmailUsuario"
+        />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Password Label -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtSignUpSenha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberPassword"
+            android:hint="@string/txtSenhalUsuario"
             />
 
-        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Email Label -->
-        <com.google.android.material.textfield.TextInputLayout
+    <!-- Password Label -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtSignUpSenhaConfirmar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:inputType="numberPassword"
+            android:hint="@string/txtSenhaConfirmar"
+            />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtSignUpEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="@string/txtEmailUsuario"
-                />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
+    <!-- Termos Label -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp">
 
-        <!-- Password Label -->
-        <com.google.android.material.textfield.TextInputLayout
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/chkSignUpConfirmarTermos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:textColor="@color/primary_text"
+            android:buttonTint="@color/accent"
+            android:textSize="16dp"
+            android:onClick="signUpValidarTermoUso"
+            android:text="Li e concordo com os termos de uso" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtSignUpSenha"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberPassword"
-                android:hint="@string/txtSenhalUsuario"
-                />
+    </com.google.android.material.textfield.TextInputLayout>
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Password Label -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edtSignUpSenhaConfirmar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberPassword"
-                android:hint="@string/txtSenhaConfirmar"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- Termos Label -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp">
-
-            <com.google.android.material.checkbox.MaterialCheckBox
-                android:id="@+id/chkSignUpConfirmarTermos"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/primary_text"
-                android:buttonTint="@color/accent"
-                android:textSize="16dp"
-                android:onClick="signUpValidarTermoUso"
-                android:text="Li e concordo com os termos de uso" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSignUpCadastrar"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:text="Cadastrar"
             android:background="@color/accent"
             android:textColor="@color/primary_text"
-            android:text="Cadastrar"/>
+            android:layout_marginRight="4dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/guideline"
+            app:layout_constraintHorizontal_chainStyle="spread" />
 
-    </LinearLayout>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSignUpCancelar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:layout_marginLeft="4dp"
+            android:background="@color/light_slate_gray"
+            android:textColor="@color/black"
+            app:layout_constraintLeft_toRightOf="@+id/guideline"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="spread"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </androidx.appcompat.widget.LinearLayoutCompat>

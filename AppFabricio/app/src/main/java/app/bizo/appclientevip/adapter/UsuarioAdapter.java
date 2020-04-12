@@ -1,27 +1,22 @@
 package app.bizo.appclientevip.adapter;
 
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatImageButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.List;
 
 import app.bizo.appclientevip.model.Usuario;
 import app.bizo.appclientevip.views.R;
-import app.bizo.appclientevip.views.UsuarioFormActivity;
 
 public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioViewHolder> {
 
@@ -29,6 +24,8 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
     private List<Usuario> lista;
     private LayoutInflater mInflater;
     private final UsuarioAdapterListener listener;
+
+    private AppCompatImageButton btnUsuarioListaItemDelete;
 
     public UsuarioAdapter(Context context, List<Usuario> lista, UsuarioAdapterListener listener){
         this.context = context;
@@ -40,6 +37,7 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
     // stores and recycles views as they are scrolled off screen
     public class UsuarioViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView usuarioListaItemNome, usuarioListaItemEmail;
+        public LinearLayout usuarioListaLinhaLayout;
         private Usuario objeto;
         private WeakReference<UsuarioAdapterListener> listenerRef;
 
@@ -48,12 +46,23 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
             listenerRef = new WeakReference<>(listener);
             usuarioListaItemNome = itemView.findViewById(R.id.usuarioListaItemNome);
             usuarioListaItemEmail = itemView.findViewById(R.id.usuarioListaItemEmail);
+            usuarioListaLinhaLayout = itemView.findViewById(R.id.usuario_lista_linha_layout);
+            btnUsuarioListaItemDelete = itemView.findViewById(R.id.btnUsuarioListaItemDelete);
             itemView.setOnClickListener(this);
+            btnUsuarioListaItemDelete.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            listenerRef.get().onPositionClicked(getAdapterPosition(), objeto);
+            switch (view.getId()){
+                case R.id.btnUsuarioListaItemDelete:
+                    listenerRef.get().onDelete(getAdapterPosition());
+                    break;
+                default:
+                    listenerRef.get().onPositionClicked(getAdapterPosition(), objeto);
+                    break;
+            }
+
         }
 
         public void bind(Usuario usuario) {
@@ -84,6 +93,13 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
     public void removeItem(int posicao) {
         lista.remove(posicao);
         notifyItemRemoved(posicao);
+        notifyItemRangeChanged(posicao, lista.size());
+    }
+
+    public void restoreItem(Usuario model, int position) {
+        lista.add(position, model);
+        // notify item added by position
+        notifyItemInserted(position);
     }
 
     // total number of rows

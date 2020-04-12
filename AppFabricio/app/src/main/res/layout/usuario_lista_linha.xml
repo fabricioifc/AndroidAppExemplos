@@ -1,23 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="1dp"
-    android:background="#ffffff"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="4dp">
 
-    <TextView
-        android:id="@+id/usuarioListaItemNome"
+    <LinearLayout
+        android:id="@+id/usuario_lista_linha_layout"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textStyle="bold" />
+        android:padding="8dp">
 
-    <TextView
-        android:id="@+id/usuarioListaItemEmail"
-        android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/usuarioListaItemNome"
+            android:layout_width="334dp"
+            android:layout_height="wrap_content"
+            android:text="Fabricio"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/usuarioListaItemEmail"
+            android:layout_width="334dp"
+            android:layout_height="wrap_content"
+            android:text="fabricio@gmail.com"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+        </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btnUsuarioListaItemDelete"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+        app:srcCompat="@drawable/ic_delete_forever_red"
+        android:layout_gravity="right"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="0dp"
+        android:backgroundTintMode="screen"
 
-</LinearLayout>
+    />
+</androidx.cardview.widget.CardView>
+
