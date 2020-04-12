@@ -14,7 +14,7 @@ import app.bizo.appclientevip.datamodel.UsuarioDataModel;
 public class SplashActivity extends AppCompatActivity {
 
     private boolean loginAutomatico;
-    private AppDatabase appDatabase;
+//    private AppDatabase appDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +23,14 @@ public class SplashActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         restaurarPreferencias();
-        inicializarBancoDeDados();
+//        inicializarBancoDeDados();
         inicializarAplicativo();
     }
 
-    private void inicializarBancoDeDados() {
-        appDatabase = new AppDatabase(this);
-        appDatabase.addDataModelListener(new UsuarioDataModel());
-    }
+//    private void inicializarBancoDeDados() {
+//        appDatabase = new AppDatabase(this);
+//        appDatabase.addDataModelListener(new UsuarioDataModel());
+//    }
 
     private void inicializarAplicativo() {
         new Handler().postDelayed(new Runnable() {

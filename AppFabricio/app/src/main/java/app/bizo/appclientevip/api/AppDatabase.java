@@ -28,7 +28,9 @@ public class AppDatabase extends SQLiteOpenHelper {
     public AppDatabase(@Nullable Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
+
         listeners = new ArrayList<>();
+        listeners.add(new UsuarioDataModel());
     }
 
     @Override
@@ -46,17 +48,17 @@ public class AppDatabase extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        for (DataModelListener l: listeners) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.i(TAG, "Atualizando a base de dados da versão " + oldVersion + " para a versão " + newVersion);
+        for (DataModelListener l : listeners) {
             String sql = l.excluirTabela();
             db.execSQL(sql);
-            onCreate(db);
         }
-    }
-    
-    public void addDataModelListener(DataModelListener listener){
-        listeners.add(listener);
+        onCreate(db);
     }
 
-
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.i(TAG, "onDowngrade: ");
+    }
 }
