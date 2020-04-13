@@ -1,6 +1,7 @@
 package app.bizo.appclientevip.views;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,6 +22,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.w3c.dom.Text;
@@ -75,17 +77,9 @@ public class UsuarioListaActivity extends ActivityBase {
             }
 
             @Override
-            public void onDelete(int position) {
+            public void onDelete(final int position) {
                 Log.i(TAG, "onDelete: " + position);
-                try {
-                    if (controller.remover(adapter.getByPosition(position).getId())){
-                        adapter.removeItem(position);
-                    } else {
-                        Toast.makeText(UsuarioListaActivity.this, "Erro ao Remover Usuário!", Toast.LENGTH_SHORT).show();
-                    }
-                }catch (SQLException ex){
-                    Log.e(TAG, ex.getMessage());
-                }
+                excluirUsuario(position);
             }
 
         });
@@ -103,23 +97,36 @@ public class UsuarioListaActivity extends ActivityBase {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                final Usuario deletedModel = adapter.getByPosition(position);
-
-                int pos = viewHolder.getAdapterPosition();
-                Log.i(TAG, "onSwiped: " + deletedModel);
-                try {
-                    if (controller.remover(deletedModel.getId())){
-                        adapter.removeItem(pos);
-                    } else {
-                        Toast.makeText(UsuarioListaActivity.this, "Erro ao Remover Usuário!", Toast.LENGTH_SHORT).show();
-                    }
-                }catch (SQLException ex){
-                    Log.e(TAG, ex.getMessage());
-                }
+                Log.i(TAG, "onSwiped: " + position);
+                excluirUsuario(position);
             }
         };
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
 
+    }
+
+    private void excluirUsuario(final int position) {
+        try {
+            final Usuario objeto = adapter.getByPosition(position);
+            new MaterialAlertDialogBuilder(UsuarioListaActivity.this, R.style.ThemeOverlay_MaterialComponents_Dark)
+                    .setTitle("Excluir Usuário")
+                    .setMessage("Tem certeza que deseja remover o usuário " + objeto.getNome() +"?")
+                    .setNegativeButton("Cancelar", null)
+                    .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (controller.remover(objeto.getId())){
+                                adapter.removeItem(position);
+                            } else {
+                                Toast.makeText(UsuarioListaActivity.this, "Erro ao Remover Usuário!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    })
+                    .show();
+
+        }catch (SQLException ex){
+            Log.e(TAG, ex.getMessage());
+        }
     }
 
     @Override

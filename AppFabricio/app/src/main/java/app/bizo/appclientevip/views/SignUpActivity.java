@@ -84,7 +84,6 @@ public class SignUpActivity extends ActivityBase implements View.OnClickListener
             edtSignUpNome.setText(usuario.getNome());
             edtSignUpEmail.setText(usuario.getEmail());
             chkSignUpConfirmarTermos.setChecked(usuario.getAceitouTermosUso());
-            Toast.makeText(this, usuario.toString(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -117,6 +116,12 @@ public class SignUpActivity extends ActivityBase implements View.OnClickListener
 
         if (TextUtils.isEmpty(edtSignUpEmail.getText().toString())) {
             edtSignUpEmail.setError(this.getResources().getString(R.string.txtEmailUsuario));
+            edtSignUpEmail.requestFocus();
+            return false;
+        }
+
+        if (!validarEmail()){
+            edtSignUpEmail.setError("Formato de E-mail Inválido!");
             edtSignUpEmail.requestFocus();
             return false;
         }
@@ -202,4 +207,14 @@ public class SignUpActivity extends ActivityBase implements View.OnClickListener
                 }
         }
     }
+
+    private boolean validarEmail() {
+        String emailId = edtSignUpEmail.getText().toString();
+        Boolean  isValid = android.util.Patterns.EMAIL_ADDRESS.matcher(emailId).matches();
+        if (!isValid) {
+            return false;
+        }
+        return true;
+    }
+
 }

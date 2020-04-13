@@ -46,4 +46,12 @@ public final class PreferenciasUtil {
     static public void saveData(SharedPreferences.Editor editor) {
         editor.apply();
     }
+
+    static public boolean isLogado(Context context) {
+        return context.getSharedPreferences(PREF_APP, Context.MODE_PRIVATE).getInt(PREF_LOGIN_USUARIO_ID, 0) > 0;
+    }
+
+    static public int getUsuarioLogado(Context context) {
+        return context.getSharedPreferences(PREF_APP, Context.MODE_PRIVATE).getInt(PREF_LOGIN_USUARIO_ID, 0);
+    }
 }

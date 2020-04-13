@@ -1,6 +1,7 @@
 package app.bizo.appclientevip.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import app.bizo.appclientevip.api.PreferenciasUtil;
 import app.bizo.appclientevip.model.Usuario;
 import app.bizo.appclientevip.views.R;
 
 public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioViewHolder> {
 
+    private static final String TAG = UsuarioAdapter.class.getName();
+
     private Context context;
     private List<Usuario> dataSource;
     private LayoutInflater mInflater;
     private final UsuarioAdapterListener listener;
-
-    private AppCompatImageButton btnUsuarioListaItemDelete;
 
     public UsuarioAdapter(Context context, List<Usuario> lista, UsuarioAdapterListener listener){
         this.context = context;
@@ -37,6 +39,7 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
     // stores and recycles views as they are scrolled off screen
     public class UsuarioViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView usuarioListaItemNome, usuarioListaItemEmail;
+        AppCompatImageButton btnUsuarioListaItemDelete;
         public CardView usuarioListaLinhaLayout;
         private Usuario objeto;
         private WeakReference<UsuarioAdapterListener> listenerRef;
@@ -82,25 +85,32 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
     @Override
     public void onBindViewHolder(UsuarioViewHolder holder, int position) {
         Usuario usuario = dataSource.get(position);
+        AppCompatImageButton btnUsuarioListaItemDelete = holder.itemView.findViewById(R.id.btnUsuarioListaItemDelete);
+        if (usuario.getId() == PreferenciasUtil.getUsuarioLogado(context)){
+            btnUsuarioListaItemDelete.setVisibility(View.GONE);
+        }else {
+            btnUsuarioListaItemDelete.setVisibility(View.VISIBLE);
+        }
+
         holder.bind(usuario);
     }
 
-    public void addItem(Usuario model) {
-        dataSource.add(model);
-        notifyItemInserted(getItemCount());
-    }
+//    public void addItem(Usuario model) {
+//        dataSource.add(model);
+//        notifyItemInserted(getItemCount());
+//    }
 
     public void removeItem(int posicao) {
         dataSource.remove(posicao);
         notifyItemRemoved(posicao);
-        notifyItemRangeChanged(posicao, dataSource.size());
+        notifyItemRangeChanged(posicao, getItemCount());
     }
 
-    public void restoreItem(Usuario model, int position) {
-        dataSource.add(position, model);
-        // notify item added by position
-        notifyItemInserted(position);
-    }
+//    public void restoreItem(Usuario model, int position) {
+//        dataSource.add(position, model);
+//        // notify item added by position
+//        notifyItemInserted(position);
+//    }
 
     // total number of rows
     @Override
