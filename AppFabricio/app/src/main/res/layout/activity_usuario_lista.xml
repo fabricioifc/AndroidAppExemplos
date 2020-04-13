@@ -10,9 +10,17 @@
     app:layout_constraintTop_toTopOf="parent"
     android:id="@+id/usuarioListaActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/usuarioListaView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/usuarioLisatSwipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-     />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/usuarioListaView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+         />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

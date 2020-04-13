@@ -13,6 +13,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -209,12 +210,9 @@ public class SignUpActivity extends ActivityBase implements View.OnClickListener
     }
 
     private boolean validarEmail() {
-        String emailId = edtSignUpEmail.getText().toString();
-        Boolean  isValid = android.util.Patterns.EMAIL_ADDRESS.matcher(emailId).matches();
-        if (!isValid) {
-            return false;
-        }
-        return true;
+        return Patterns.EMAIL_ADDRESS
+                .matcher(edtSignUpEmail.getText().toString())
+                .matches();
     }
 
 }

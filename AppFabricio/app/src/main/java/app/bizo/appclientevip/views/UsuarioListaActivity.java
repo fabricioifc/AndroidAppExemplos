@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -40,6 +41,8 @@ public class UsuarioListaActivity extends ActivityBase {
     private RecyclerView recyclerView;
     private UsuarioAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
 
     private UsuarioController controller;
 
@@ -60,6 +63,21 @@ public class UsuarioListaActivity extends ActivityBase {
 
     @Override
     public void iniciarComponentes() {
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.usuarioLisatSwipeContainer);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                adapter.updateData(controller.listarTodos());
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeRefreshLayout.setColorSchemeResources(
+                R.color.bg,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
         recyclerView = (RecyclerView) findViewById(R.id.usuarioListaView);
         recyclerView.setHasFixedSize(true);
 
