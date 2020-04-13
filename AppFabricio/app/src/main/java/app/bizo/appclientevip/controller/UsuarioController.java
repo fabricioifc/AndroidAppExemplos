@@ -3,6 +3,7 @@ package app.bizo.appclientevip.controller;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import app.bizo.appclientevip.api.PreferenciasUtil;
 import app.bizo.appclientevip.dao.UsuarioDao;
 import app.bizo.appclientevip.datamodel.UsuarioDataModel;
 import app.bizo.appclientevip.model.Usuario;
+import app.bizo.appclientevip.views.UsuarioListaActivity;
 
 public class UsuarioController  {
 
@@ -44,7 +46,7 @@ public class UsuarioController  {
         return false;
     }
 
-    public boolean salvar(Usuario usuario) {
+    public boolean salvar(Usuario usuario) throws SQLException {
         ContentValues dados = new ContentValues();
         dados.put(UsuarioDataModel.ID, usuario.getId());
         dados.put(UsuarioDataModel.NOME, usuario.getNome());
@@ -53,15 +55,18 @@ public class UsuarioController  {
         dados.put(UsuarioDataModel.ACEITOU_TERMOS_USO, usuario.getAceitouTermosUso());
         if (usuario.getId() == null) {
             return dao.inserir(UsuarioDataModel.TABELA, dados);
+//            usuario.setId(dao.getUltimoID(UsuarioDataModel.TABELA));
         } else {
             return dao.atualizar(UsuarioDataModel.TABELA,
                     dados,
                     UsuarioDataModel.ID + "=?",
                     new String[]{String.valueOf(usuario.getId())});
         }
+
+
     }
 
-    public boolean remover(int usuarioId) {
+    public boolean remover(int usuarioId) throws SQLException {
         return dao.excluir(UsuarioDataModel.TABELA,
                 UsuarioDataModel.ID + "=?",
                 new String[]{String.valueOf(usuarioId)});
@@ -115,6 +120,10 @@ public class UsuarioController  {
             cursor.getString(2),
             cursor.getString(3),
             cursor.getInt(4) != 0);
+    }
+
+    private int getUltimoID(){
+        return dao.getUltimoID(UsuarioDataModel.TABELA);
     }
 
 //    public boolean salvar(Context context, Usuario usuario) {

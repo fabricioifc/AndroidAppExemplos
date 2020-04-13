@@ -29,4 +29,6 @@ public abstract class ActivityBase extends AppCompatActivity {
     }
 
     public abstract void iniciarComponentes();
+
+    public void carregar(){}
 }

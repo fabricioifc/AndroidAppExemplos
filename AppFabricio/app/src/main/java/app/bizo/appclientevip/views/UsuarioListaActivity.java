@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.SQLException;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +25,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import app.bizo.appclientevip.adapter.UsuarioAdapter;
@@ -35,7 +38,6 @@ public class UsuarioListaActivity extends ActivityBase {
     private RecyclerView recyclerView;
     private UsuarioAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
-    private List<Usuario> usuarios;
 
     private UsuarioController controller;
 
@@ -46,24 +48,23 @@ public class UsuarioListaActivity extends ActivityBase {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG, "onCreate: ");
         setContentView(R.layout.activity_usuario_lista);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Lista de Usuários");
 
         iniciarComponentes();
-        carregarLista();
     }
 
     @Override
     public void iniciarComponentes() {
-        usuarios = controller.listarTodos();
         recyclerView = (RecyclerView) findViewById(R.id.usuarioListaView);
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new UsuarioAdapter(this, usuarios, new UsuarioAdapterListener() {
+        adapter = new UsuarioAdapter(this, controller.listarTodos(), new UsuarioAdapterListener() {
             @Override
             public void onPositionClicked(int position, Usuario objeto) {
                 Intent tela = new Intent(UsuarioListaActivity.this, SignUpActivity.class);
@@ -75,11 +76,15 @@ public class UsuarioListaActivity extends ActivityBase {
 
             @Override
             public void onDelete(int position) {
-                Log.i(TAG, "onDelete: " + usuarios.get(position));
-                if (controller.remover(usuarios.get(position).getId())){
-                    adapter.removeItem(position);
-                } else {
-                    Toast.makeText(UsuarioListaActivity.this, "Erro ao Remover Usuário!", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "onDelete: " + position);
+                try {
+                    if (controller.remover(adapter.getByPosition(position).getId())){
+                        adapter.removeItem(position);
+                    } else {
+                        Toast.makeText(UsuarioListaActivity.this, "Erro ao Remover Usuário!", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (SQLException ex){
+                    Log.e(TAG, ex.getMessage());
                 }
             }
 
@@ -98,35 +103,39 @@ public class UsuarioListaActivity extends ActivityBase {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                final Usuario deletedModel = usuarios.get(position);
+                final Usuario deletedModel = adapter.getByPosition(position);
 
                 int pos = viewHolder.getAdapterPosition();
-                Log.i(TAG, "onSwiped: " + usuarios.get(pos));
-                if (controller.remover(usuarios.get(pos).getId())){
-                    adapter.removeItem(pos);
-                } else {
-                    Toast.makeText(UsuarioListaActivity.this, "Erro ao Remover Usuário!", Toast.LENGTH_SHORT).show();
+                Log.i(TAG, "onSwiped: " + deletedModel);
+                try {
+                    if (controller.remover(deletedModel.getId())){
+                        adapter.removeItem(pos);
+                    } else {
+                        Toast.makeText(UsuarioListaActivity.this, "Erro ao Remover Usuário!", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (SQLException ex){
+                    Log.e(TAG, ex.getMessage());
                 }
             }
         };
         new ItemTouchHelper(simpleCallback).attachToRecyclerView(recyclerView);
+
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
 
-        carregarLista();
+        Boolean atualizarLista = getIntent().getBooleanExtra("atualizar_lista", false);
+        Log.i(TAG, "onResume: " + atualizarLista);
+
+        if (atualizarLista) {
+            ((UsuarioAdapter) adapter).updateData(controller.listarTodos());
+            recyclerView.smoothScrollToPosition(adapter.getItemCount() - 1);
+        }
     }
 
-    private void carregarLista() {
-        this.usuarios = controller.listarTodos();
-        ((UsuarioAdapter) adapter).updateData(usuarios);
-    }
-
-    public void adicionarItem(Usuario model) {
-        adapter.addItem(model);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -146,4 +155,6 @@ public class UsuarioListaActivity extends ActivityBase {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
 }

@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.core.content.ContextCompat;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.database.SQLException;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -51,7 +53,7 @@ public class SignUpActivity extends ActivityBase implements View.OnClickListener
         carregar();
     }
 
-    private void carregar() {
+    public void carregar() {
         telaAnterior = (Class) getIntent().getSerializableExtra("telaAnterior");
         Usuario usuario = (Usuario) getIntent().getSerializableExtra("usuario");
         if (usuario != null) {
@@ -176,20 +178,22 @@ public class SignUpActivity extends ActivityBase implements View.OnClickListener
                         }
 
                         if (controller.salvar(usuario)) {
-                            Log.i(TAG, "onClick: " + SignUpActivity.this.getParent());
                             Intent tela = new Intent(SignUpActivity.this, telaAnterior);
-                            tela.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+
+                            tela.putExtra("atualizar_lista", true);
+                            tela.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                             Toast.makeText(SignUpActivity.this, "Cadastro Efetuado com Sucesso!", Toast.LENGTH_LONG).show();
+                            startActivity(tela);
                             finish();
                         }
                     }
-                } catch (Exception ex) {
+                } catch (SQLException ex) {
                     Snackbar.make(v, ex.getMessage(), Snackbar.LENGTH_LONG).show();
                 }
                 break;
             case R.id.btnSignUpCancelar:
                 try {
-                    Intent tela = new Intent(minhaTela, telaAnterior);
+                    Intent tela = new Intent(minhaTela, telaAnterior.getClass());
                     tela.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     finish();
                     break;

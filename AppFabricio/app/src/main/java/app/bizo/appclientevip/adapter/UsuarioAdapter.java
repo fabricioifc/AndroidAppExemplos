@@ -1,15 +1,15 @@
 package app.bizo.appclientevip.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.ref.WeakReference;
@@ -21,7 +21,7 @@ import app.bizo.appclientevip.views.R;
 public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioViewHolder> {
 
     private Context context;
-    private List<Usuario> lista;
+    private List<Usuario> dataSource;
     private LayoutInflater mInflater;
     private final UsuarioAdapterListener listener;
 
@@ -30,14 +30,14 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
     public UsuarioAdapter(Context context, List<Usuario> lista, UsuarioAdapterListener listener){
         this.context = context;
         this.mInflater = LayoutInflater.from(context);
-        this.lista = lista;
+        this.dataSource = lista;
         this.listener = listener;
     }
 
     // stores and recycles views as they are scrolled off screen
     public class UsuarioViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView usuarioListaItemNome, usuarioListaItemEmail;
-        public LinearLayout usuarioListaLinhaLayout;
+        public CardView usuarioListaLinhaLayout;
         private Usuario objeto;
         private WeakReference<UsuarioAdapterListener> listenerRef;
 
@@ -81,23 +81,23 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
 
     @Override
     public void onBindViewHolder(UsuarioViewHolder holder, int position) {
-        Usuario usuario = lista.get(position);
+        Usuario usuario = dataSource.get(position);
         holder.bind(usuario);
     }
 
     public void addItem(Usuario model) {
-        lista.add(model);
+        dataSource.add(model);
         notifyItemInserted(getItemCount());
     }
 
     public void removeItem(int posicao) {
-        lista.remove(posicao);
+        dataSource.remove(posicao);
         notifyItemRemoved(posicao);
-        notifyItemRangeChanged(posicao, lista.size());
+        notifyItemRangeChanged(posicao, dataSource.size());
     }
 
     public void restoreItem(Usuario model, int position) {
-        lista.add(position, model);
+        dataSource.add(position, model);
         // notify item added by position
         notifyItemInserted(position);
     }
@@ -105,14 +105,25 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.UsuarioV
     // total number of rows
     @Override
     public int getItemCount() {
-        return lista.size();
+        return dataSource.size();
     }
 
     public void updateData(List<Usuario> lista) {
-        this.lista.clear();
-        this.lista.addAll(lista);
+//        AdapterDiffUtil adapterDiffUtil = new AdapterDiffUtil(dataSource, lista);
+//        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(adapterDiffUtil);
+//
+//        dataSource.clear();
+//        dataSource.addAll(lista);
+//        diffResult.dispatchUpdatesTo(this);
+        this.dataSource.clear();
+        this.dataSource.addAll(lista);
         notifyDataSetChanged();
     }
+
+    public Usuario getByPosition(int posicao){
+        return dataSource.get(posicao);
+    }
+
 
 //    @NonNull
 //    @Override

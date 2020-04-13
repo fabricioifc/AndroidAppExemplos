@@ -3,34 +3,39 @@ package app.bizo.appclientevip.dao;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import app.bizo.appclientevip.api.AppDatabase;
+import app.bizo.appclientevip.model.Usuario;
 
 public class UsuarioDao extends AppDatabase {
+
+    private static final String TAG = UsuarioDao.class.getName();
 
     public UsuarioDao(@Nullable Context context) {
         super(context);
     }
 
-    public boolean inserir(String tabela, ContentValues dados) {
+    public boolean inserir(String tabela, ContentValues dados) throws SQLException {
         SQLiteDatabase db = getWritableDatabase();
         return db.insert(tabela, null, dados) != -1;
     }
 
-    public boolean atualizar(String tabela, ContentValues dados, String condicao, String[] condicaoValores) {
+    public boolean atualizar(String tabela, ContentValues dados, String condicao, String[] condicaoValores) throws SQLException {
         SQLiteDatabase db = getWritableDatabase();
         return db.update(tabela, dados, condicao, condicaoValores) == 1;
     }
-    public boolean excluir(String tabela, String condicao, String[] condicaoValores) {
+    public boolean excluir(String tabela, String condicao, String[] condicaoValores) throws SQLException {
         SQLiteDatabase db = getWritableDatabase();
         return db.delete(tabela, condicao, condicaoValores) == 1;
     }
     public Cursor listar(String tabela) {
         SQLiteDatabase db = getReadableDatabase();
-        return db.rawQuery("SELECT * FROM " + tabela, null);
+        return db.rawQuery("SELECT * FROM " + tabela + " ORDER BY nome ASC", null);
     }
 
     public Cursor buscarPorId(String tabela, int id) {
